@@ -8,6 +8,10 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var fs = require('fs');
+
+var winston = require('winston');
+
 var app = express();
 
 // view engine setup
@@ -21,10 +25,13 @@ if (app.get('env') === 'development') {
 }
 
 if (app.get('env') === 'production') {
-    var fs = require('fs')
-    var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'})
-    app.use(logger('combined', {stream: accessLogStream}))
+    var accessLogStream = fs.createWriteStream(__dirname + '/access.log', {flags: 'a'});
+    app.use(logger('combined', {stream: accessLogStream}));
+
+    winston.add(winston.transports.File, { filename: 'app.log' });
 }
+
+winston.info('Hello again distributed logs');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
