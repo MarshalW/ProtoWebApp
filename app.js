@@ -75,6 +75,7 @@ app.use(function(err, req, res, next) {
 
 module.exports = app;
 
+//测试redis
 var redis = require("redis"),
         client = redis.createClient(6379, "redis");
 
@@ -92,3 +93,16 @@ client.hkeys("hash key", function (err, replies) {
     });
     client.quit();
 });
+
+//测试mongoDB
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://mongodb/test');
+
+var Cat = mongoose.model('Cat', { name: String });
+
+var kitty = new Cat({ name: 'Zildjian' });
+kitty.save(function (err) {
+  if (err) // ...
+  console.log('meow');
+});
+
