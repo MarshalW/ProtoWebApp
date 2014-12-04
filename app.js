@@ -76,7 +76,7 @@ app.use(function(err, req, res, next) {
 module.exports = app;
 
 var redis = require("redis"),
-        client = redis.createClient();
+        client = redis.createClient(6379, "redis");
 
 client.on("error", function (err) {
         console.log("Error " + err);
